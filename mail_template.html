@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ödeme Hatırlatma</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+    <table style="max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+        <tr>
+            <td style="text-align: center; padding: 10px; background-color: #d9534f; color: white; font-size: 20px; font-weight: bold; border-radius: 5px;">
+                📌 ÖDEME HATIRLATMASI
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; font-size: 16px; color: #333;">
+                <p>Sayın <strong>${name}</strong> yetkilisi,</p>
+                <p>Cari hesabınızda gözüken <strong style="color: red; font-size: 18px;">${amount} TL</strong> tutarındaki borcunuzun ödemesi <strong>halen gerçekleşmemiştir.</strong></p>
+                <p>Ödemenizin en kısa sürede yapılmasını rica ederiz. Geri dönüş yapmadığınız takdirde <strong>yasal işlem başlatılabilir.</strong></p>
+                
+                <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+                    <tr>
+                        <td style="background: #f8d7da; color: #721c24; padding: 10px; font-size: 16px; text-align: center; border-radius: 5px;">
+                            <strong>Borç Tutarı: ${amount} TL</strong>
+                        </td>
+                    </tr>
+                </table>
+
+                <p style="margin-top: 20px;"><strong>Ödeme Bilgileri:</strong></p>
+                <p>🏦 <strong>Banka:</strong> [Banka Adı]</p>
+                <p>📌 <strong>IBAN:</strong> [TRXX XXXX XXXX XXXX]</p>
+                <p>📅 <strong>Son Ödeme Tarihi:</strong> [Ödeme Tarihi]</p>
+
+                <p style="margin-top: 20px; font-weight: bold;">📩 Ödeme yaptıysanız lütfen dekontu bu e-posta yanıtlayarak paylaşın.</p>
+
+                <p style="margin-top: 20px; color: #555;">Her türlü sorunuz için bizimle iletişime geçebilirsiniz.</p>
+
+                <p style="margin-top: 20px; font-size: 14px; color: #777;">Saygılarımızla,<br> <strong>Medicom Bilişim</strong></p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

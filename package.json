@@ -1,0 +1,26 @@
+{
+  "name": "muhasebe-mail-gonderici",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Tellison6/Muhasebe-Mail-Gonderici#readme",
+  "bugs": {
+    "url": "https://github.com/Tellison6/Muhasebe-Mail-Gonderici/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tellison6/Muhasebe-Mail-Gonderici.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.3"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.3"
+  }
+}
