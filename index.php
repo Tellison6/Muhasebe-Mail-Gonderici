@@ -1,9 +1,9 @@
-
+<?php include 'db.php'; session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
-  <link href="./src/input.css" rel="stylesheet">
-  <link href="./src/output.css" rel="stylesheet">
+  <link href="src/input.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
   <title>Giriş Yap</title>
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">

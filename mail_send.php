@@ -26,6 +26,7 @@ if (!$customer) {
 $name = $customer['name'];
 $email = $customer['email'];
 
+
 // ✉️ HTML Mail içeriği
 $html = file_get_contents('mail_template.html');
 $html = str_replace(['${name}', '${amount}'], [$name, $amount], $html);
@@ -39,6 +40,9 @@ try {
   $mail->Password   = '2P3poluVfK';
   $mail->SMTPSecure = 'ssl';
   $mail->Port       = 465;
+
+  $mail->CharSet = 'UTF-8';
+  $mail->Encoding = 'base64';
 
   $mail->setFrom('muhasebe@medicom.net.tr', 'Medicom Bilişim');
   $mail->addAddress($email, $name);

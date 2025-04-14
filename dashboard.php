@@ -24,7 +24,8 @@ $customers = $pdo->query("SELECT * FROM customers ORDER BY name ASC")->fetchAll(
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
-  <link href="tailwind.css" rel="stylesheet">
+  <link href="src/input.css" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 min-h-screen">
 
