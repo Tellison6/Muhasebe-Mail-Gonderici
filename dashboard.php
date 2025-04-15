@@ -1,62 +1,57 @@
 <?php
-include 'db.php';
 session_start();
 if (!isset($_SESSION['user'])) {
   header("Location: index.php");
   exit;
 }
-
-$customers = $pdo->query("SELECT * FROM customers ORDER BY name ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>📬 Borç Bildirimi</title>
-  <link href="src/input.css" rel="stylesheet">
+  <title>Borç Sistemi Ana Sayfa</title>
   <link href="src/output.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen">
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
   <!-- Header -->
-  <header class="bg-white shadow-sm p-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold text-gray-800">📬 Borç Bildirimi Paneli</h1>
-    <div class="space-x-4">
-      <a href="musteri_yonetim.php" class="text-blue-600 hover:underline">Müşteri Yönetimi</a>
-      <a href="logout.php" class="text-red-500 hover:underline">Çıkış Yap</a>
-    </div>
+  <header class="bg-white shadow-md p-5 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a1 1 0 001 1h16a1 1 0 001-1V7M3 7l9 6 9-6" />
+      </svg>
+      Borç Sistemi Ana Sayfa
+    </h1>
+    <a href="logout.php" class="text-red-500 font-medium hover:underline">Çıkış Yap</a>
   </header>
 
-  <!-- Ana Kart -->
-  <main class="max-w-2xl mx-auto mt-10">
-    <div class="bg-white rounded-xl shadow-lg p-8">
-      <h2 class="text-2xl font-semibold mb-6 text-gray-700 flex items-center gap-2">
-        💼 Borç Bildirimi Gönder
-      </h2>
+  <!-- İçerik -->
+  <main class="flex-grow flex items-center justify-center p-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl">
 
-      <form action="mail_send.php" method="POST" class="space-y-5">
-        <!-- Müşteri Seçimi -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Müşteri Seç</label>
-          <select name="customer_id" required class="w-full p-3 border rounded-md bg-white shadow-sm focus:outline-blue-500">
-            <option value="">-- Müşteri Seçin --</option>
-            <?php foreach ($customers as $c): ?>
-              <option value="<?= $c['id'] ?>"><?= htmlspecialchars($c['name']) ?> - <?= $c['email'] ?></option>
-            <?php endforeach; ?>
-          </select>
+      <!-- Mail Gönder -->
+      <a href="dashboard_gonder.php" class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition duration-300 text-center group">
+        <div class="flex justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-600 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m0 0v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8m18 0L12 13 3 8" />
+          </svg>
         </div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Borç Bildirimi Gönder</h2>
+        <p class="text-gray-600 text-sm">Müşteri seç, borç tutarını gir, şablonla mail gönder.</p>
+      </a>
 
-        <!-- Borç Tutarı -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Borç Tutarı</label>
-          <input type="text" name="amount" required placeholder="Örn: 12.500,00 TL" class="w-full p-3 border rounded-md shadow-sm focus:outline-blue-500">
+      <!-- Müşteri Yönetimi -->
+      <a href="musteri_yonetim.php" class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition duration-300 text-center group">
+        <div class="flex justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-600 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2h5m6-10a4 4 0 100-8 4 4 0 000 8z" />
+          </svg>
         </div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Müşteri Oluştur</h2>
+        <p class="text-gray-600 text-sm">Yeni müşteri bilgisi girin, listeyi düzenleyin.</p>
+      </a>
 
-        <!-- Gönder Butonu -->
-        <button type="submit" class="w-full bg-red-600 text-white font-medium py-3 rounded-md hover:bg-red-700 transition">
-          📤 Mail Gönder
-        </button>
-      </form>
     </div>
   </main>
 

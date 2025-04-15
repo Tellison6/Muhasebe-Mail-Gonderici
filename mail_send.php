@@ -2,57 +2,65 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
-include 'db.php';
-session_start();
+require 'db.php';
 
-// Güvenlik kontrolü
-if (!isset($_SESSION['user']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+session_start();
+if (!isset($_SESSION['user'])) {
   header("Location: index.php");
   exit;
 }
 
-$customer_id = $_POST['customer_id'];
-$amount = $_POST['amount'];
+// Form verisi
+$customer_id = $_POST['customer_id'] ?? null;
+$amount = $_POST['amount'] ?? null;
 
-$stmt = $pdo->prepare("SELECT * FROM customers WHERE id = ?");
-$stmt->execute([$customer_id]);
-$customer = $stmt->fetch();
-
-if (!$customer) {
-  echo "Müşteri bulunamadı.";
-  exit;
+if (!$customer_id || !$amount) {
+  die("Eksik bilgi.");
 }
 
-$name = $customer['name'];
-$email = $customer['email'];
+// Müşteri bilgisi çek
+$stmt = $pdo->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->execute([$customer_id]);
+$customer = $stmt->fetch(PDO::FETCH_ASSOC);
 
+if (!$customer) {
+  die("Müşteri bulunamadı.");
+}
 
-// ✉️ HTML Mail içeriği
-$html = file_get_contents('mail_template.html');
-$html = str_replace(['${name}', '${amount}'], [$name, $amount], $html);
+// HTML şablon yükle
+$template = file_get_contents('mail_template.html');
 
+// Değişkenleri yerleştir
+$html = str_replace(
+  ['${name}', '${amount}'],
+  [htmlspecialchars($customer['name']), htmlspecialchars($amount)],
+  $template
+);
+
+// PHPMailer ile gönderim
 $mail = new PHPMailer(true);
+
 try {
   $mail->isSMTP();
-  $mail->Host       = 'ms4.guzel.net.tr'; // sunucuna göre değiştir
-  $mail->SMTPAuth   = true;
-  $mail->Username   = 'muhasebe@medicom.net.tr';
-  $mail->Password   = '2P3poluVfK';
+  $mail->Host = 'ms4.guzel.net.tr';       // 🔁 Buraya SMTP bilgilerin gelecek
+  $mail->SMTPAuth = true;
+  $mail->Username = 'muhasebe@medicom.net.tr';     // 🔁 Gönderen e-posta
+  $mail->Password = '2P3poluVfK';              // 🔁 Şifre
   $mail->SMTPSecure = 'ssl';
-  $mail->Port       = 465;
+  $mail->Port = 465;
 
   $mail->CharSet = 'UTF-8';
   $mail->Encoding = 'base64';
 
-  $mail->setFrom('muhasebe@medicom.net.tr', 'Medicom Bilişim');
-  $mail->addAddress($email, $name);
+  $mail->setFrom('muhasebe@medicom.net.tr', 'Medicom Bilişim'); // Gönderen
+  $mail->addAddress($customer['email'], $customer['name']); // Alıcı
 
   $mail->isHTML(true);
-  $mail->Subject = '📌 Ödeme Hatırlatma';
+  $mail->Subject = '📌 Ödeme Hatırlatması';
   $mail->Body    = $html;
 
   $mail->send();
-  echo "<script>alert('Mail başarıyla gönderildi'); window.location.href='dashboard.php';</script>";
+  header("Location: dashboard_gonder.php?status=success");
 } catch (Exception $e) {
-  echo "Mail gönderilemedi: {$mail->ErrorInfo}";
+  echo "Mail gönderilemedi. Hata: {$mail->ErrorInfo}";
 }
